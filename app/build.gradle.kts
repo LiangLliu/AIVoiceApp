@@ -57,6 +57,18 @@ android {
 
 
     // 输出类型
+    android.applicationVariants.all {
+        // 编译类型
+        val buildType = this.buildType.name
+        outputs.all {
+
+            // 输入APK
+            if (this is com.android.build.gradle.internal.api.ApkVariantOutputImpl) {
+                this.outputFileName = "AI_V${defaultConfig.versionName}_$buildType.apk"
+            }
+        }
+    }
+
 
     // 依赖操作
 
