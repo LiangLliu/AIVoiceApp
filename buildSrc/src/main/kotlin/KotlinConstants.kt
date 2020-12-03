@@ -47,7 +47,11 @@ object DependenciesConfig {
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:1.1.3"
 }
 
+object ModuleConfig {
+    // 是否APP
 
+    val isApp = true
+}
 
 
 

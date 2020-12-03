@@ -17,8 +17,6 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
-
-        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
 
@@ -92,8 +90,17 @@ dependencies {
     implementation(DependenciesConfig.APP_COMPAT)
     implementation(DependenciesConfig.CONSTRAINT_LAYOUT)
 
-    testImplementation("junit:junit:4.+")
-    androidTestImplementation("androidx.test.ext:junit:1.1.1")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.2.0")
+    implementation(project(":lib_base"))
+
+    if (!ModuleConfig.isApp) {
+        implementation(project(":module_app_manager"))
+        implementation(project(":module_constellation"))
+        implementation(project(":module_developer"))
+        implementation(project(":module_joke"))
+        implementation(project(":module_map"))
+        implementation(project(":module_setting"))
+        implementation(project(":module_voice_setting"))
+        implementation(project(":module_weather"))
+    }
 
 }
