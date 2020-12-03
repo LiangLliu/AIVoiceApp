@@ -7,15 +7,17 @@ plugins {
 
 // Android属性
 android {
-    compileSdkVersion(30)
-    buildToolsVersion = "30.0.2"
+    compileSdkVersion(AppConfig.compileSdkVersion)
+    buildToolsVersion = (AppConfig.buildToolsVersion)
 
     defaultConfig {
-        applicationId = "com.edwin.aivoiceapp"
-        minSdkVersion(21)
-        targetSdkVersion(30)
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.applicationId
+        minSdkVersion(AppConfig.minSdkVersion)
+        targetSdkVersion(AppConfig.targetSdkVersion)
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
+
+
         testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -86,9 +88,9 @@ android {
 dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.4.20")
-    implementation("androidx.appcompat:appcompat:1.1.0")
-    implementation("androidx.constraintlayout:constraintlayout:1.1.3")
+    implementation(DependenciesConfig.STD_LIB)
+    implementation(DependenciesConfig.APP_COMPAT)
+    implementation(DependenciesConfig.CONSTRAINT_LAYOUT)
 
     testImplementation("junit:junit:4.+")
     androidTestImplementation("androidx.test.ext:junit:1.1.1")
