@@ -48,6 +48,9 @@ dependencies {
     api(DependenciesConfig.APP_COMPAT)
     api(DependenciesConfig.CONSTRAINT_LAYOUT)
 
+    // EventBUS
+    api(DependenciesConfig.EVENT_BUS)
+
 
     api(project(":lib_network"))
     api(project(":lib_voice"))

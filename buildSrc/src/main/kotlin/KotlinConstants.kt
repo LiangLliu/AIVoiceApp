@@ -45,12 +45,14 @@ object DependenciesConfig {
     const val KTX_CORE = "androidx.core:core-ktx:1.2.0"
 
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:1.1.3"
+
+    const val EVENT_BUS = "org.greenrobot:eventbus:3.2.0"
 }
 
 object ModuleConfig {
     // 是否APP
 
-    val isApp = false
+    val isApp = true
 
     //  包名
     const val MODULE_APP_MANAGER = "com.edwin.module_app_manager"
