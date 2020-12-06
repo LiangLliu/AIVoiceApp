@@ -50,7 +50,17 @@ object DependenciesConfig {
 object ModuleConfig {
     // 是否APP
 
-    val isApp = true
+    val isApp = false
+
+    //  包名
+    const val MODULE_APP_MANAGER = "com.edwin.module_app_manager"
+    const val MODULE_CONSTELLATION = "com.edwin.module_constellation"
+    const val MODULE_DEVELOPER = "com.edwin.module_developer"
+    const val MODULE_JOKE = "com.edwin.module_joke"
+    const val MODULE_MAP = "com.edwin.module_map"
+    const val MODULE_SETTING = "com.edwin.module_setting"
+    const val MODULE_VOICE_SETTING = "com.edwin.module_voice_setting"
+    const val MODULE_WEATHER = "com.edwin.module_weather"
 }
 
 

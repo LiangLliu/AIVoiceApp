@@ -1,5 +1,9 @@
 plugins {
-    id("com.android.library")
+    if (ModuleConfig.isApp) {
+        id("com.android.application")
+    } else {
+        id("com.android.library")
+    }
     kotlin("android")
     kotlin("android.extensions")
 }
@@ -9,6 +13,10 @@ android {
     buildToolsVersion = (AppConfig.buildToolsVersion)
 
     defaultConfig {
+
+        if (ModuleConfig.isApp) {
+            applicationId = ModuleConfig.MODULE_SETTING
+        }
 
         minSdkVersion(AppConfig.minSdkVersion)
         targetSdkVersion(AppConfig.targetSdkVersion)
@@ -38,6 +46,18 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+
+    // 动态替换资源
+
+    sourceSets {
+        getByName("main") {
+            if (ModuleConfig.isApp) {
+                manifest.srcFile("src/main/manifest/AndroidManifest.xml")
+            } else {
+                manifest.srcFile("src/main/AndroidManifest.xml")
+            }
+        }
     }
 }
 
