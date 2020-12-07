@@ -6,6 +6,7 @@ plugins {
     }
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 android {
@@ -23,6 +24,13 @@ android {
         targetSdkVersion(AppConfig.targetSdkVersion)
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
+
+        //ARouter
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.name)
+            }
+        }
 
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
         consumerProguardFiles("consumer-rules.pro")
@@ -67,5 +75,6 @@ dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
     implementation(project(":lib_base"))
+    kapt(DependenciesConfig.AROUTER_COMPILER)
 
 }

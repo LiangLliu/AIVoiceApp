@@ -44,8 +44,5 @@ android {
 dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation(DependenciesConfig.STD_LIB)
-    implementation(DependenciesConfig.APP_COMPAT)
-    implementation(DependenciesConfig.CONSTRAINT_LAYOUT)
 
 }

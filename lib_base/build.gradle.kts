@@ -51,6 +51,10 @@ dependencies {
     // EventBUS
     api(DependenciesConfig.EVENT_BUS)
 
+    //    ARouter
+    api(DependenciesConfig.AROUTER)
+
+
 
     api(project(":lib_network"))
     api(project(":lib_voice"))

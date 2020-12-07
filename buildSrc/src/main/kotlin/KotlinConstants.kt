@@ -47,12 +47,18 @@ object DependenciesConfig {
     const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:1.1.3"
 
     const val EVENT_BUS = "org.greenrobot:eventbus:3.2.0"
+
+    //    ARouter
+    const val AROUTER = "com.alibaba:arouter-api:1.5.1"
+    const val AROUTER_COMPILER = "com.alibaba:arouter-compiler:1.5.1"
+
+
 }
 
 object ModuleConfig {
     // 是否APP
 
-    val isApp = true
+    val isApp = false
 
     //  包名
     const val MODULE_APP_MANAGER = "com.edwin.module_app_manager"

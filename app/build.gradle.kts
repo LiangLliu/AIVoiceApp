@@ -3,6 +3,7 @@ plugins {
     id("com.android.application")
     kotlin("android")
     kotlin("android.extensions")
+    kotlin("kapt")
 }
 
 // Android属性
@@ -17,8 +18,13 @@ android {
         versionCode = AppConfig.versionCode
         versionName = AppConfig.versionName
 
+        //ARouter
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.name)
+            }
+        }
     }
-
 
     // 签名配置
     signingConfigs {
@@ -102,5 +108,7 @@ dependencies {
         implementation(project(":module_voice_setting"))
         implementation(project(":module_weather"))
     }
+
+    kapt(DependenciesConfig.AROUTER_COMPILER)
 
 }
