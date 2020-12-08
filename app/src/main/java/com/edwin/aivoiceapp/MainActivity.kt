@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.event.EventManager
 import com.edwin.lib_base.event.MessageEvent
 import com.edwin.lib_base.helper.ARouterHelper
@@ -12,41 +13,23 @@ import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        EventManager.register(this)
-
-        btn1.setOnClickListener {
-            EventManager.post(1111)
-        }
-
-        btn2.setOnClickListener {
-            EventManager.post(2222, "hello EventBus")
-        }
-
-        btn.setOnClickListener {
-            ARouterHelper.startActivity(ARouterHelper.PATH_APP_MANAGER)
-        }
-
-        btn_map.setOnClickListener {
-            ARouterHelper.startActivity(ARouterHelper.PATH_MAP)
-        }
+class MainActivity : BaseActivity() {
+    override fun getLayoutId(): Int {
+        return R.layout.activity_main
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        EventManager.onRegister(this)
+    override fun getTitleText(): String {
+        return getString(R.string.app_name)
+    }
+
+    override fun isShowBack(): Boolean {
+        return false
     }
 
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: MessageEvent) {
-        when (event.type) {
-            1111 -> Log.i("TestApp", "1111")
-            2222 -> Log.i("TestApp", event.stringValue)
-        }
+    override fun initView() {
+        ARouterHelper.startActivity(ARouterHelper.PATH_APP_MANAGER)
     }
+
+
 }

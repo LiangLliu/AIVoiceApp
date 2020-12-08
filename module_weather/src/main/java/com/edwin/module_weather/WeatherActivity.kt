@@ -8,9 +8,20 @@ import com.edwin.lib_base.helper.ARouterHelper
 @Route(path = ARouterHelper.PATH_WEATHER)
 class WeatherActivity : BaseActivity() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_weather)
+    override fun getLayoutId(): Int {
+        return R.layout.activity_weather
+    }
+
+    override fun getTitleText(): String {
+        return getString(com.edwin.lib_base.R.string.app_title_weather)
+    }
+
+    override fun isShowBack(): Boolean {
+        return false
+    }
+
+    override fun initView() {
+
     }
 
 }
