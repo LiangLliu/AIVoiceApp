@@ -54,6 +54,12 @@ dependencies {
     //    ARouter
     api(DependenciesConfig.AROUTER)
 
+    //    recyclerview
+    api(DependenciesConfig.RECYCLER_VIEW)
+
+    //   permissions
+    api(DependenciesConfig.AND_PERMISSIONS)
+
 
 
     api(project(":lib_network"))

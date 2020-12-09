@@ -52,6 +52,11 @@ object DependenciesConfig {
     const val AROUTER = "com.alibaba:arouter-api:1.5.1"
     const val AROUTER_COMPILER = "com.alibaba:arouter-compiler:1.5.1"
 
+    //  RecyclerView
+    const val RECYCLER_VIEW = "androidx.recyclerview:recyclerview:1.2.0-alpha01"
+
+    //  Permissions
+    const val AND_PERMISSIONS = "com.yanzhenjie:permission:2.0.2"
 
 }
 

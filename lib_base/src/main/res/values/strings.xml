@@ -1,0 +1,19 @@
+<resources>
+
+
+    <!--标题-->
+    <string name="app_title_app_manager">应用管理</string>
+    <string name="app_title_constellation">星座</string>
+    <string name="app_title_developer">开发者模式</string>
+    <string name="app_title_joke">笑话</string>
+    <string name="app_title_map">地图</string>
+    <string name="app_title_system_setting">系统设置</string>
+    <string name="app_title_voice_setting">语音设置</string>
+    <string name="app_title_weather">天气</string>
+
+
+
+    <string name="app_title_city_select">城市选择</string>
+
+
+</resources>

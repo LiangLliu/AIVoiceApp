@@ -30,3 +30,11 @@ lib:
 ## 路由
 * ARouter
 [ARouter github](https://github.com/alibaba/ARouter)
+
+## 语音识别名词 [百度AI开发平台](http://ai.baidu.com/)
+* TTS/发音
+* ASR/语义识别
+* WakeUp/唤醒
+
+
+## 适配器
