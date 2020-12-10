@@ -39,31 +39,7 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
-
-        mList = ArrayList()
-
-        for (i in 1..30) {
-            mList.add("第${i}个")
-        }
-
-
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
-        mRecyclerView.adapter =
-            CommonAdapter(mList, object : CommonAdapter.OnBindDataListener<String> {
-                override fun onBindViewHolder(
-                    model: String,
-                    viewHolder: CommonViewHolder,
-                    type: Int,
-                    position: Int
-                ) {
-                    viewHolder.setText(R.id.textView, model)
-                }
-
-                override fun getLayoutId(type: Int): Int {
-                    return R.layout.test_item
-                }
-
-            })
+        ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER)
     }
 
 

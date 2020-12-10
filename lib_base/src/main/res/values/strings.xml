@@ -12,8 +12,38 @@
     <string name="app_title_weather">天气</string>
 
 
-
     <string name="app_title_city_select">城市选择</string>
 
+
+    <!--固定数据-->
+    <array name="DeveloperListArray">
+        <item>[组件化]</item>
+        <item>跳转应用管理</item>
+        <item>跳转星座</item>
+        <item>跳转笑话</item>
+        <item>跳转地图</item>
+        <item>跳转设置</item>
+        <item>跳转语音设置</item>
+        <item>跳转天气</item>
+        <item>[在线识别]</item>
+        <item>开始识别</item>
+        <item>停止识别</item>
+        <item>取消识别</item>
+        <item>释放识别</item>
+        <item>[本地唤醒]</item>
+        <item>开始唤醒</item>
+        <item>停止唤醒</item>
+        <item>[离线识别]</item>
+        <item>加载离线识别</item>
+        <item>卸载离线识别</item>
+        <item>[TTS]</item>
+        <item>TTS开始</item>
+        <item>TTS暂停</item>
+        <item>TTS继续</item>
+        <item>TTS停止</item>
+        <item>TTS释放</item>
+        <item>[功能测试]</item>
+        <item>启动电话</item>
+    </array>
 
 </resources>
