@@ -1,5 +1,6 @@
 package com.edwin.aivoiceapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.LinearLayout
@@ -39,6 +40,8 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
+        startService(Intent(this, VoiceService::class.java))
+
         ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER)
     }
 

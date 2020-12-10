@@ -1,8 +1,10 @@
 package com.edwin.lib_base.service
 
 import android.app.IntentService
+import android.app.NotificationManager
 import android.content.Intent
 import com.edwin.lib_base.helper.ARouterHelper
+import com.edwin.lib_base.helper.NotificationHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_base.utils.SpUtils
 
@@ -27,6 +29,7 @@ class InitService : IntentService(InitService::class.simpleName) {
 
 
         SpUtils.initUtils(this)
+
 
     }
 

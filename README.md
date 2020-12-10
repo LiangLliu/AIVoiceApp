@@ -38,3 +38,19 @@ lib:
 
 
 ## 适配器
+
+## 服务保活
+* 像素保活：相当于开启了一个窗口像素1px，来达到保活的手段
+* 系统自带：系统做了一些友好的保活 - FLAG
+* JobScheduler:
+    * 工作任务：标记这个服务一直在工作，也是作为一种进程死后复活的手段
+    * 缺点：耗电，高版本不兼容
+* 进程相互唤醒：
+    * 双进程保活
+
+* 前台服务：
+    * 在前台运行，绑定通知栏，在服务中创建通知栏
+
+## 应用启动
+应用启动 -> Application(Base App) -> run InitService -> init 渠道
+                                -> MainActivity - onCreate() -> run VoiceService
