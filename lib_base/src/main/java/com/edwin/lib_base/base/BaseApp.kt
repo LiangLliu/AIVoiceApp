@@ -1,18 +1,20 @@
 package com.edwin.lib_base.base
 
 import android.app.Application
+import android.content.Intent
 import com.edwin.lib_base.helper.ARouterHelper
+import com.edwin.lib_base.service.InitService
 import com.edwin.lib_base.utils.SpUtils
 
 /**
  * 基类APP
  */
-class BaseApp : Application() {
+open class BaseApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
 
         ARouterHelper.initHelper(this)
-        SpUtils.initUtils(this)
+        startService(Intent(this, InitService::class.java))
     }
 }
