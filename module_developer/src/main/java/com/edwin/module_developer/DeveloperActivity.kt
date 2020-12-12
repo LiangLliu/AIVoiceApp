@@ -7,6 +7,7 @@ import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.base.adapter.CommonAdapter
 import com.edwin.lib_base.base.adapter.CommonViewHolder
 import com.edwin.lib_base.helper.ARouterHelper
+import com.edwin.lib_voice.manager.VoiceManager
 import com.edwin.module_developer.data.DeveloperListData
 import kotlinx.android.synthetic.main.activity_developer.*
 import java.util.ArrayList
@@ -128,6 +129,14 @@ class DeveloperActivity : BaseActivity() {
             5 -> ARouterHelper.startActivity(ARouterHelper.PATH_SETTING)
             6 -> ARouterHelper.startActivity(ARouterHelper.PATH_VOICE_SETTING)
             7 -> ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER)
+
+            21 -> VoiceManager.start("你好，我是小爱同学")
+            22 -> VoiceManager.pause()
+            23 -> VoiceManager.resume()
+            24 -> VoiceManager.stop()
+            25 -> VoiceManager.release()
+
+
         }
     }
 

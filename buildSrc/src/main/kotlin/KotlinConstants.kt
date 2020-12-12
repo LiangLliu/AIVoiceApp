@@ -63,7 +63,7 @@ object DependenciesConfig {
 object ModuleConfig {
     // 是否APP
 
-    val isApp = false
+    val isApp = true
 
     //  包名
     const val MODULE_APP_MANAGER = "com.edwin.module_app_manager"

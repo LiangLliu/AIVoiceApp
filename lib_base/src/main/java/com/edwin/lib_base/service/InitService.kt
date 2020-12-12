@@ -7,6 +7,7 @@ import com.edwin.lib_base.helper.ARouterHelper
 import com.edwin.lib_base.helper.NotificationHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_base.utils.SpUtils
+import com.edwin.lib_voice.manager.VoiceManager
 
 /**
  * 初始化服务
@@ -29,7 +30,6 @@ class InitService : IntentService(InitService::class.simpleName) {
 
 
         SpUtils.initUtils(this)
-
 
     }
 

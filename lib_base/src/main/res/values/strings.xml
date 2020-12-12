@@ -33,6 +33,7 @@
         <item>[本地唤醒]</item>
         <item>开始唤醒</item>
         <item>停止唤醒</item>
+        <item>释放唤醒</item>
         <item>[离线识别]</item>
         <item>加载离线识别</item>
         <item>卸载离线识别</item>

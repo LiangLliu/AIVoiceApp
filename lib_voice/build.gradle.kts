@@ -43,7 +43,10 @@ android {
 
 dependencies {
 
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    // 百度 tts
+    api(files("libs/com.baidu.tts_2.6.2.jar"))
 
 
 }
