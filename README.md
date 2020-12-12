@@ -54,3 +54,10 @@ lib:
 ## 应用启动
 应用启动 -> Application(Base App) -> run InitService -> init 渠道
                                 -> MainActivity - onCreate() -> run VoiceService
+                                
+## 唤醒词
+小爱同学、小袁同学、小袁小袁
+
+## 注意点
+
+* APP签名问题，在百度官方申请的app package 不与 appid不一致时会失败

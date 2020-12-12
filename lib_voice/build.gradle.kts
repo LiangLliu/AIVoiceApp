@@ -48,5 +48,8 @@ dependencies {
     // 百度 tts
     api(files("libs/com.baidu.tts_2.6.2.jar"))
 
+    // 本地唤醒
+    api(files("libs/bdasr_V3_20191210.jar"))
+
 
 }

@@ -11,13 +11,29 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application>
-        <service android:name=".service.InitService" />
 
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
+
+        <meta-data
+            android:name="com.baidu.speech.APP_ID"
+            android:value="23133129" />
+
+        <meta-data
+            android:name="com.baidu.speech.API_KEY"
+            android:value="pzSuYvo7lonrlBUseHqGrAyj" />
+
+        <meta-data
+            android:name="com.baidu.speech.SECRET_KEY"
+            android:value="mmdBcaIQUoiDEgPlIBgBflWpdzQfsCcl" />
+
+
+        <service android:name=".service.InitService" />
 
     </application>
 

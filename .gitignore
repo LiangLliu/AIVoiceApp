@@ -7,19 +7,20 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
-.DS_Store
+*.DS_Store
 /build
 /captures
 .externalNativeBuild
 .cxx
-local.properties
 .idea
-### Example user template template
+
+
 ### Example user template
 
 # IntelliJ project files
 out
 gen
+
 ### VisualStudioCode template
 .vscode/*
 !.vscode/settings.json
@@ -78,9 +79,11 @@ captures/
 .idea/assetWizardSettings.xml
 .idea/dictionaries
 .idea/libraries
+
 # Android Studio 3 in .gitignore file.
 .idea/caches
 .idea/modules.xml
+
 # Comment next line if keeping position of elements in Navigation Editor is relevant for you
 .idea/navEditor.xml
 
@@ -128,5 +131,3 @@ lint/tmp/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-*.DS_Store

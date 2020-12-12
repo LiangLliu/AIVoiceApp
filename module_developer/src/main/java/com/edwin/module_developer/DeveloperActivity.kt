@@ -9,6 +9,8 @@ import com.edwin.lib_base.base.adapter.CommonViewHolder
 import com.edwin.lib_base.helper.ARouterHelper
 import com.edwin.lib_voice.manager.VoiceManager
 import com.edwin.module_developer.data.DeveloperListData
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.runtime.Permission
 import kotlinx.android.synthetic.main.activity_developer.*
 import java.util.ArrayList
 
@@ -41,6 +43,12 @@ class DeveloperActivity : BaseActivity() {
     }
 
     override fun initView() {
+
+        AndPermission.with(this)
+            .runtime()
+            .permission(Permission.RECORD_AUDIO)
+            .start()
+
         initData()
         initListView()
     }
@@ -130,20 +138,14 @@ class DeveloperActivity : BaseActivity() {
             6 -> ARouterHelper.startActivity(ARouterHelper.PATH_VOICE_SETTING)
             7 -> ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER)
 
-            21 -> VoiceManager.ttsStart("你好，我是小爱同学，很高兴认识你")
-            22 -> VoiceManager.ttsPause()
-//            22 -> {
-//
-//                VoiceManager.start("你好，我是小爱同学，很高兴认识你", object : VoiceTTS.OnTTSResultListener {
-//                    override fun ttsEnd() {
-//                        Log.i("Test:", "TTSEnd : ")
-//                    }
-//
-//                })
-//            }
-            23 -> VoiceManager.ttsResume()
-            24 -> VoiceManager.ttsStop()
-            25 -> VoiceManager.ttsRelease()
+            14 -> VoiceManager.startWakeUp()
+            15 -> VoiceManager.stopWakeUp()
+
+            20 -> VoiceManager.ttsStart("你好，我是小爱同学，很高兴认识你")
+            21 -> VoiceManager.ttsPause()
+            22 -> VoiceManager.ttsResume()
+            23 -> VoiceManager.ttsStop()
+            24 -> VoiceManager.ttsRelease()
 
 
         }

@@ -5,6 +5,9 @@ import com.edwin.aivoiceapp.service.VoiceService
 import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.helper.ARouterHelper
 
+import com.yanzhenjie.permission.AndPermission
+import com.yanzhenjie.permission.runtime.Permission
+
 
 class MainActivity : BaseActivity() {
 
