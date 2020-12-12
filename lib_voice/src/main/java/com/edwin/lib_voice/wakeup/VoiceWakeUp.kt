@@ -21,11 +21,8 @@ object VoiceWakeUp {
     // 唤醒对象
     private lateinit var eventManger: EventManager
 
-    private lateinit var listener: EventListener
 
     fun initWakeup(context: Context, listener: EventListener) {
-
-        this.listener = listener;
 
         val map = HashMap<Any, Any>()
 
@@ -55,7 +52,7 @@ object VoiceWakeUp {
     }
 
     // 销毁
-    fun releaseWakeUp() {
+    fun releaseWakeUp(listener: EventListener) {
         stopWakeUp();
         eventManger.unregisterListener(listener);
 
