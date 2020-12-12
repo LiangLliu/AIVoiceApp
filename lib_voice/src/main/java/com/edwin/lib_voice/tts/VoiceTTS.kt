@@ -20,7 +20,10 @@ object VoiceTTS : SpeechSynthesizerListener {
     private lateinit var mSpeechSynthesizer: SpeechSynthesizer
 
 
-    // 初始化TTS
+    /**
+     * 初始化TTS
+     * 输入参数和输出回调 https://ai.baidu.com/ai-doc/SPEECH/Pk8446an5
+     */
     fun initTTS(mContext: Context) {
 
         //初始化对象
@@ -35,8 +38,14 @@ object VoiceTTS : SpeechSynthesizerListener {
 
         // 其他参数
         // 发声人
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEAKER, 2.toString())
+
         // 语速
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_SPEED, 5.toString())
+
         // 音量
+        mSpeechSynthesizer.setParam(SpeechSynthesizer.PARAM_VOLUME, 5.toString())
+
 
         // 初始化
         mSpeechSynthesizer.initTts(TtsMode.ONLINE)
