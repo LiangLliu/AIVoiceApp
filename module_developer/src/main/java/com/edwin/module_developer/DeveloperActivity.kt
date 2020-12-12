@@ -130,11 +130,20 @@ class DeveloperActivity : BaseActivity() {
             6 -> ARouterHelper.startActivity(ARouterHelper.PATH_VOICE_SETTING)
             7 -> ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER)
 
-            21 -> VoiceManager.start("你好，我是小爱同学，很高兴认识你")
-            22 -> VoiceManager.pause()
-            23 -> VoiceManager.resume()
-            24 -> VoiceManager.stop()
-            25 -> VoiceManager.release()
+            21 -> VoiceManager.ttsStart("你好，我是小爱同学，很高兴认识你")
+            22 -> VoiceManager.ttsPause()
+//            22 -> {
+//
+//                VoiceManager.start("你好，我是小爱同学，很高兴认识你", object : VoiceTTS.OnTTSResultListener {
+//                    override fun ttsEnd() {
+//                        Log.i("Test:", "TTSEnd : ")
+//                    }
+//
+//                })
+//            }
+            23 -> VoiceManager.ttsResume()
+            24 -> VoiceManager.ttsStop()
+            25 -> VoiceManager.ttsRelease()
 
 
         }

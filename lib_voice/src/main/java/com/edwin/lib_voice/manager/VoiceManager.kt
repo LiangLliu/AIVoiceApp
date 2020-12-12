@@ -1,6 +1,7 @@
 package com.edwin.lib_voice.manager
 
 import android.content.Context
+import com.baidu.tts.client.SpeechSynthesizer
 import com.edwin.lib_voice.tts.VoiceTTS
 
 /**
@@ -23,29 +24,51 @@ object VoiceManager {
         VoiceTTS.initTTS(mContent)
     }
 
+
+    // 设置发音人
+    fun setPeople(people: String) {
+        VoiceTTS.setPeople(people)
+    }
+
+    // 设置语速
+    fun setVoiceSpeed(voiceSpeed: String) {
+        VoiceTTS.setVoiceSpeed(voiceSpeed)
+    }
+
+    // 设置音量
+    fun setVoiceVolume(voiceVolume: String) {
+        VoiceTTS.setVoiceVolume(voiceVolume)
+    }
+
     //---------------------------TTS Start---------------------------
     // 播放
-    fun start(text: String) {
+    fun ttsStart(text: String) {
         VoiceTTS.start(text)
     }
 
+    // 播放并监听结果
+    fun ttsStart(text: String, mOnTTSResultListener: VoiceTTS.OnTTSResultListener) {
+        VoiceTTS.start(text, mOnTTSResultListener)
+    }
+
+
     // 暂停
-    fun pause() {
+    fun ttsPause() {
         VoiceTTS.pause()
     }
 
     // 继续播放
-    fun resume() {
+    fun ttsResume() {
         VoiceTTS.resume()
     }
 
     // 停止播放
-    fun stop() {
+    fun ttsStop() {
         VoiceTTS.stop()
     }
 
     // 释放资源
-    fun release() {
+    fun ttsRelease() {
         VoiceTTS.release()
     }
 
