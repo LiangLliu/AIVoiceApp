@@ -61,6 +61,9 @@ dependencies {
     api(DependenciesConfig.AND_PERMISSIONS)
 
 
+    //  Retrofit
+    api(DependenciesConfig.RETROFIT)
+    api(DependenciesConfig.RETROFIT_GSON)
 
     api(project(":lib_network"))
     api(project(":lib_voice"))

@@ -58,6 +58,11 @@ object DependenciesConfig {
     //  Permissions
     const val AND_PERMISSIONS = "com.yanzhenjie:permission:2.0.2"
 
+    //Retrofit
+    const val RETROFIT = "com.squareup.retrofit2:retrofit:2.9.0"
+    const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:2.9.0"
+
+
 }
 
 object ModuleConfig {

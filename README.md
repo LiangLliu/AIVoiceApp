@@ -61,3 +61,7 @@ lib:
 ## 注意点
 
 * APP签名问题，在百度官方申请的app package 不与 appid不一致时会失败
+
+
+# 网络框架
+Retrofit 2.0 网络框架
