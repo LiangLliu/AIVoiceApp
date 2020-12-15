@@ -5,8 +5,10 @@ import android.util.Log
 import com.baidu.speech.EventListener
 import com.baidu.speech.asr.SpeechConstant
 import com.edwin.lib_voice.asr.VoiceAsr
+import com.edwin.lib_voice.impl.OnAsrResultListener
 import com.edwin.lib_voice.tts.VoiceTTS
 import com.edwin.lib_voice.wakeup.VoiceWakeUp
+import org.json.JSONObject
 
 
 /**
@@ -24,10 +26,17 @@ object VoiceManager : EventListener {
 //    const val VOICE_APP_KEY = "3HzYMWVyEuOuWWrExaCUEEKg"
 //    const val VOICE_APP_SECRET = "q1zVsCEoD4lkchSanyESH7PcLN2GGOSF"
 
+    // 接口
+    private lateinit var mOnAsrResultListener: OnAsrResultListener
+
 
     private var TAG = VoiceManager::class.java.simpleName
 
-    fun initManager(mContent: Context) {
+    fun initManager(mContent: Context, mOnAsrResultListener: OnAsrResultListener) {
+        this.mOnAsrResultListener = mOnAsrResultListener
+
+
+
         VoiceTTS.initTTS(mContent)
         VoiceAsr.initAsr(mContent, this)
         VoiceWakeUp.initWakeup(mContent, this)
@@ -135,9 +144,9 @@ object VoiceManager : EventListener {
     ) {
 
         when (name) {
-            SpeechConstant.CALLBACK_EVENT_WAKEUP_READY -> Log.i(TAG, "唤醒准备就绪")
-            SpeechConstant.CALLBACK_EVENT_ASR_BEGIN -> Log.i(TAG, "开始说话")
-            SpeechConstant.CALLBACK_EVENT_ASR_END -> Log.i(TAG, "结束说话")
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_READY -> mOnAsrResultListener.wakeUpReady()
+            SpeechConstant.CALLBACK_EVENT_ASR_BEGIN -> mOnAsrResultListener.asrStartSpeak()
+            SpeechConstant.CALLBACK_EVENT_ASR_END -> mOnAsrResultListener.asrStopSpeak()
 
         }
 
@@ -146,24 +155,22 @@ object VoiceManager : EventListener {
             return
         }
 
+        val allJson = JSONObject(params)
+
 
         when (name) {
 
-            SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> ttsStart("我在，有什么可以帮到你")
-            SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> Log.i(TAG, "唤醒失败")
-
-            SpeechConstant.CALLBACK_EVENT_ASR_READY -> {
-                Log.i(TAG, "ASR准备就绪")
-            }
-
-            SpeechConstant.CALLBACK_EVENT_ASR_FINISH -> {
-                Log.i(TAG, "Asr识别结束：${params}")
-            }
-
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> mOnAsrResultListener.wakeUpSuccess(
+                allJson
+            )
+            SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> mOnAsrResultListener.voiceError("唤醒失败")
+            SpeechConstant.CALLBACK_EVENT_ASR_FINISH -> mOnAsrResultListener.asrResult(allJson)
             SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL -> { // 最终语义
                 data?.let {
-                    val nlu = String(data, offset, length)
+                    val nlu = JSONObject(String(data, offset, length))
                     Log.i(TAG, "识别结果：${nlu}")
+
+                    mOnAsrResultListener.nluResult(nlu)
                 }
             }
 

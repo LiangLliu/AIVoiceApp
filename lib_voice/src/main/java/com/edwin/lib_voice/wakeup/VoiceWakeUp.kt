@@ -38,6 +38,8 @@ object VoiceWakeUp {
         // 设置监听器
         eventManger = EventManagerFactory.create(context, "wp")
         eventManger.registerListener(listener)
+
+        startWakeUp()
     }
 
     // 启动唤醒

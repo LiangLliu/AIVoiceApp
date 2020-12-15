@@ -8,6 +8,7 @@ import com.edwin.lib_base.helper.NotificationHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_base.utils.SpUtils
 import com.edwin.lib_voice.manager.VoiceManager
+import com.edwin.lib_voice.words.WordTools
 
 /**
  * 初始化服务
@@ -30,6 +31,7 @@ class InitService : IntentService(InitService::class.simpleName) {
 
 
         SpUtils.initUtils(this)
+        WordTools.initTools(this)
 
     }
 

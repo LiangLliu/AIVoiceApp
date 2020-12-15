@@ -19,7 +19,7 @@ open class BaseApp : Application() {
         ARouterHelper.initHelper(this)
         // 绑定服务，免杀
         NotificationHelper.initHelper(this)
-        VoiceManager.initManager(this)
+
         startService(Intent(this, InitService::class.java))
     }
 }
