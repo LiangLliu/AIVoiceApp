@@ -43,6 +43,10 @@ android {
 
 dependencies {
 
-    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    api(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+
+    //  Retrofit
+    api(DependenciesConfig.RETROFIT)
+    api(DependenciesConfig.RETROFIT_GSON)
 
 }

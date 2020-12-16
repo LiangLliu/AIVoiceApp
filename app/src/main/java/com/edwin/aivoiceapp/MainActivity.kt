@@ -5,12 +5,12 @@ import com.edwin.aivoiceapp.service.VoiceService
 import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.helper.ARouterHelper
 import com.edwin.lib_base.utils.L
-import okhttp3.RequestBody
+import com.edwin.lib_network.HttpManager
+import okhttp3.ResponseBody
 import retrofit2.Call
+
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MainActivity : BaseActivity() {
@@ -34,34 +34,31 @@ class MainActivity : BaseActivity() {
 
     override fun initView() {
 
-        testWeather()
+
         startService(Intent(this, VoiceService::class.java))
+
+        testWeather()
 
         ARouterHelper.startActivity(ARouterHelper.PATH_DEVELOPER)
 
-
     }
-
 
     // https://www.juhe.cn/docs/api/id/73
     private fun testWeather() {
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("http://apis.juhe.cn/")
-            .build()
+        HttpManager.queryWeather("北京")
+            .enqueue(object : Callback<ResponseBody> {
+                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                    L.i("请求失败")
+                }
 
-        val service = retrofit.create(TestWeatherService::class.java)
-        service.getWeather("北京", "133123").equals(object : Callback<RequestBody> {
-            override fun onFailure(call: Call<RequestBody>, t: Throwable) {
-                L.i("请求失败")
-            }
+                override fun onResponse(
+                    call: Call<ResponseBody>, response: Response<ResponseBody>
+                ) {
+                    L.i("请求成功：" + response.body()?.string())
+                }
 
-            override fun onResponse(call: Call<RequestBody>, response: Response<RequestBody>) {
-
-                L.i("请求成功：" + response.body().toString())
-            }
-
-        })
+            })
     }
 
 
