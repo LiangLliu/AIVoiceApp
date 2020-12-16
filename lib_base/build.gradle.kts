@@ -60,6 +60,9 @@ dependencies {
     //   permissions
     api(DependenciesConfig.AND_PERMISSIONS)
 
+    // ViewPager
+    api(DependenciesConfig.VIEW_PAGER)
+    api(DependenciesConfig.MATERIAL)
 
 
     api(project(":lib_network"))

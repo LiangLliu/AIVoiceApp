@@ -62,6 +62,20 @@ object DependenciesConfig {
     const val RETROFIT = "com.squareup.retrofit2:retrofit:2.9.0"
     const val RETROFIT_GSON = "com.squareup.retrofit2:converter-gson:2.9.0"
 
+    // ViewPage
+    const val VIEW_PAGER = "com.zhy:magic-viewpager:1.0.1"
+    const val MATERIAL = "com.google.android.material:material:1.0.0"
+
+    //Lottie
+    const val LOTTIE = "com.airbnb.android:lottie:3.4.0"
+
+    //刷新
+    const val REFRESH_KERNEL = "com.scwang.smart:refresh-layout-kernel:2.0.1"
+    const val REFRESH_HEADER = "com.scwang.smart:refresh-header-classics:2.0.1"
+    const val REFRESH_FOOT = "com.scwang.smart:refresh-footer-classics:2.0.1"
+
+    //图表
+    const val CHART = "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
 }
 
