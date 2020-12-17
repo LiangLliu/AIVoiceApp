@@ -11,6 +11,7 @@ import com.edwin.aivoiceapp.service.VoiceService
 import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.base.adapter.BasePagerAdapter
 import com.edwin.lib_base.helper.ARouterHelper
+import com.edwin.lib_base.helper.func.AppHelper
 import com.yanzhenjie.permission.Action
 
 import com.zhy.magicviewpager.transformer.ScaleInTransformer
