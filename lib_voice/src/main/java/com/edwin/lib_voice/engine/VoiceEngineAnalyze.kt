@@ -1,5 +1,6 @@
 package com.edwin.lib_voice.engine
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.L
 import android.util.Log
 import com.edwin.lib_voice.impl.OnNluResultListener
 import com.imooc.lib_voice.words.NluWords
@@ -55,12 +56,49 @@ object VoiceEngineAnalyze {
         val intent = result.optString("intent")
         val slots = result.optJSONObject("slots")
 
-        when (domain) {
-            NluWords.NLU_WEATHER -> {
 
+        slots?.let {
+            when (domain) {
+                NluWords.NLU_APP -> {
+                    when (intent) {
+                        NluWords.INTENT_OPEN_APP,
+                        NluWords.INTENT_UNINSTALL_APP,
+                        NluWords.INTENT_UPDATE_APP,
+                        NluWords.INTENT_DOWNLOAD_APP,
+                        NluWords.INTENT_SEARCH_APP,
+                        NluWords.INTENT_RECOMMEND_APP -> {
+                            //得到打开App的名称
+                            val userAppName = it.optJSONArray("user_app_name")
+                            userAppName?.let { appName ->
+                                if (appName.length() > 0) {
+                                    val obj = appName[0] as JSONObject
+                                    val word = obj.optString("word")
+                                    when (intent) {
+                                        NluWords.INTENT_OPEN_APP -> mOnNluResultListener.openApp(
+                                            word
+                                        )
+                                        NluWords.INTENT_UNINSTALL_APP -> mOnNluResultListener.unInstallApp(
+                                            word
+                                        )
+                                        else -> mOnNluResultListener.otherApp(word)
+                                    }
+                                } else {
+                                    mOnNluResultListener.nluError()
+                                }
+                            }
+                        }
+                        else -> {
+                            mOnNluResultListener.nluError()
+                        }
+                    }
+                }
+
+                NluWords.NLU_WEATHER -> {
+
+                }
+                else -> mOnNluResultListener.nluError()
             }
         }
+
     }
-
-
 }

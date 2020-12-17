@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
+import android.text.TextUtils
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,6 +17,7 @@ import com.edwin.aivoiceapp.entity.AppConstants
 import com.edwin.lib_base.helper.NotificationHelper
 import com.edwin.lib_base.helper.SoundPoolHelper
 import com.edwin.lib_base.helper.WindowHelper
+import com.edwin.lib_base.helper.func.AppHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_voice.engine.VoiceEngineAnalyze
 import com.edwin.lib_voice.impl.OnAsrResultListener
@@ -23,7 +25,8 @@ import com.edwin.lib_voice.impl.OnNluResultListener
 import com.edwin.lib_voice.manager.VoiceManager
 import com.edwin.lib_voice.tts.VoiceTTS
 import com.edwin.lib_voice.words.WordTools
-import com.imooc.aivoiceapp.adapter.ChatListAdapter
+import com.edwin.aivoiceapp.adapter.ChatListAdapter
+import com.edwin.lib_base.utils.SpUtils
 import org.json.JSONObject
 
 class VoiceService : Service(), OnNluResultListener {
@@ -82,7 +85,23 @@ class VoiceService : Service(), OnNluResultListener {
         VoiceManager.initManager(this, object : OnAsrResultListener {
             override fun wakeUpReady() {
                 L.i("唤醒准备就绪")
-                VoiceManager.ttsStart("唤醒引擎准备就绪")
+
+                //发声人
+                VoiceManager.setPeople(
+                    resources.getStringArray(R.array.TTSPeopleIndex)[SpUtils.getInt(
+                        "tts_people",
+                        0
+                    )]
+                )
+                //语速
+                VoiceManager.setVoiceSpeed(SpUtils.getInt("tts_speed", 5).toString())
+                //音量
+                VoiceManager.setVoiceVolume(SpUtils.getInt("tts_volume", 5).toString())
+
+                val isHello = SpUtils.getBoolean("isHello", true)
+                if (isHello) {
+                    addAIText("唤醒引擎准备就绪")
+                }
             }
 
             override fun asrStartSpeak() {
@@ -121,8 +140,7 @@ class VoiceService : Service(), OnNluResultListener {
             override fun nluResult(nlu: JSONObject) {
                 L.i("=======================nlu=========================")
                 L.i("nlu： $nlu")
-                addAIText(nlu.optString("raw_text"))
-                addAIText(nlu.toString())
+                addMineText(nlu.optString("raw_text"))
                 VoiceEngineAnalyze.analyzeNlu(nlu, this@VoiceService)
             }
 
@@ -134,19 +152,18 @@ class VoiceService : Service(), OnNluResultListener {
     }
 
     /**
-     * 唤醒成功
+     * 唤醒成功之后的操作
      */
     private fun wakeUpFix() {
         showWindow()
-        updateTips("正在聆听....")
+        updateTips(getString(R.string.text_voice_wakeup_tips))
         SoundPoolHelper.play(R.raw.record_start)
-        // 应答
-        val wakeUpText = WordTools.wakeUpWords()
-        addMineText(wakeUpText)
-        VoiceManager.ttsStart(wakeUpText,
+        //应答
+        val wakeupText = WordTools.wakeupWords()
+        addAIText(wakeupText,
             object : VoiceTTS.OnTTSResultListener {
                 override fun ttsEnd() {
-                    // 开启识别
+                    //开启识别
                     VoiceManager.startAsr()
                 }
             })
@@ -171,8 +188,54 @@ class VoiceService : Service(), OnNluResultListener {
         mHandler.postDelayed({
             WindowHelper.hide(mFullWindowView)
             mLottieView.pauseAnimation()
+            SoundPoolHelper.play(R.raw.record_over)
         }, 3 * 1000)
 
+    }
+
+    //打开APP
+    override fun openApp(appName: String) {
+        if (!TextUtils.isEmpty(appName)) {
+            L.i("Open App $appName")
+            val isOpen = AppHelper.launcherApp(appName)
+            if (isOpen) {
+                addAIText(getString(R.string.text_voice_app_open, appName))
+            } else {
+                addAIText(getString(R.string.text_voice_app_not_open, appName))
+            }
+        }
+        hideWindow()
+    }
+
+    override fun unInstallApp(appName: String) {
+
+        if (!TextUtils.isEmpty(appName)) {
+            L.i("unInstall App $appName")
+            val isUninstall = AppHelper.unInstallApp(appName)
+            if (isUninstall) {
+                addAIText(getString(R.string.text_voice_app_uninstall, appName))
+            } else {
+                addAIText(getString(R.string.text_voice_app_not_uninstall))
+            }
+        }
+        hideWindow()
+    }
+
+    /**
+     * 其他APP
+     */
+    override fun otherApp(appName: String) {
+
+        //全部跳转应用市场
+        if (!TextUtils.isEmpty(appName)) {
+            val isIntent = AppHelper.launcherAppStore(appName)
+            if (isIntent) {
+                addAIText(getString(R.string.text_voice_app_option, appName))
+            } else {
+                addAIText(WordTools.noAnswerWords())
+            }
+        }
+        hideWindow()
     }
 
     // 查询天气
@@ -180,8 +243,14 @@ class VoiceService : Service(), OnNluResultListener {
 
     }
 
+    override fun nluError() {
+        //暂不支持
+        addAIText(WordTools.noSupportWords())
+        hideWindow()
+    }
+
     /**
-     * 添加我的的文本
+     * 添加我的文本
      */
     private fun addMineText(text: String) {
         val bean = ChatList(AppConstants.TYPE_MINE_TEXT)
@@ -196,6 +265,18 @@ class VoiceService : Service(), OnNluResultListener {
         val bean = ChatList(AppConstants.TYPE_AI_TEXT)
         bean.text = text
         baseAddItem(bean)
+        VoiceManager.ttsStart(text)
+    }
+
+
+    /**
+     * 添加AI文本
+     */
+    private fun addAIText(text: String, mOnTTSResultListener: VoiceTTS.OnTTSResultListener) {
+        val bean = ChatList(AppConstants.TYPE_AI_TEXT)
+        bean.text = text
+        baseAddItem(bean)
+        VoiceManager.ttsStart(text, mOnTTSResultListener)
     }
 
     /**

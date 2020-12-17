@@ -1,4 +1,4 @@
-package com.imooc.aivoiceapp.adapter
+package com.edwin.aivoiceapp.adapter
 
 import com.edwin.aivoiceapp.R
 import com.edwin.aivoiceapp.data.ChatList

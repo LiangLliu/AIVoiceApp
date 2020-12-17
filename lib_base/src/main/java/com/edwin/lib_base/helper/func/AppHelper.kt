@@ -69,12 +69,10 @@ object AppHelper {
             mAllAppList.add(appData)
         }
 
-        L.e("mAllAppList:$mAllAppList")
-
         initPageView()
-
         //加载商店包名
         mAllMarkArray = mContext.resources.getStringArray(R.array.AppMarketArray)
+
     }
 
     //初始化PageView
@@ -148,8 +146,11 @@ object AppHelper {
         return false
     }
 
+
     //跳转应用市场
     fun launcherAppStore(appName: String): Boolean {
+
+        // todo: 应用商店不能跳转
         mAllAppList.forEach {
             //如果你包含，说明你安装了应用商店
             if (mAllMarkArray.contains(it.packName)) {
@@ -186,6 +187,7 @@ object AppHelper {
 
     //跳转应用商店
     private fun intentAppStore(packageName: String, markPackageName: String) {
+
         val uri = Uri.parse("market://details?id=$packageName")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.setPackage(markPackageName)
