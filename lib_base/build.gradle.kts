@@ -64,6 +64,9 @@ dependencies {
     api(DependenciesConfig.VIEW_PAGER)
     api(DependenciesConfig.MATERIAL)
 
+    //  Lottie
+    api(DependenciesConfig.LOTTIE)
+
 
     api(project(":lib_network"))
     api(project(":lib_voice"))

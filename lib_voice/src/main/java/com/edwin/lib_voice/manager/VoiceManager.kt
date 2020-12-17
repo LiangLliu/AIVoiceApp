@@ -157,23 +157,21 @@ object VoiceManager : EventListener {
 
         val allJson = JSONObject(params)
 
+        Log.i("Test", "AllJson$name $allJson")
 
         when (name) {
-
             SpeechConstant.CALLBACK_EVENT_WAKEUP_SUCCESS -> mOnAsrResultListener.wakeUpSuccess(
                 allJson
             )
             SpeechConstant.CALLBACK_EVENT_WAKEUP_ERROR -> mOnAsrResultListener.voiceError("唤醒失败")
             SpeechConstant.CALLBACK_EVENT_ASR_FINISH -> mOnAsrResultListener.asrResult(allJson)
-            SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL -> { // 最终语义
+            SpeechConstant.CALLBACK_EVENT_ASR_PARTIAL -> {
+                mOnAsrResultListener.updateUserText(allJson.optString("best_result"))
                 data?.let {
                     val nlu = JSONObject(String(data, offset, length))
-                    Log.i(TAG, "识别结果：${nlu}")
-
                     mOnAsrResultListener.nluResult(nlu)
                 }
             }
-
         }
 
     }

@@ -5,6 +5,7 @@ import android.app.NotificationManager
 import android.content.Intent
 import com.edwin.lib_base.helper.ARouterHelper
 import com.edwin.lib_base.helper.NotificationHelper
+import com.edwin.lib_base.helper.SoundPoolHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_base.utils.SpUtils
 import com.edwin.lib_voice.manager.VoiceManager
@@ -32,6 +33,7 @@ class InitService : IntentService(InitService::class.simpleName) {
 
         SpUtils.initUtils(this)
         WordTools.initTools(this)
+        SoundPoolHelper.init(this)
 
     }
 

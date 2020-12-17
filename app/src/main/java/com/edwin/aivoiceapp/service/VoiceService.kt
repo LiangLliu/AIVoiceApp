@@ -5,12 +5,16 @@ import android.content.Intent
 import android.os.Handler
 import android.os.IBinder
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.edwin.aivoiceapp.R
 import com.edwin.aivoiceapp.data.ChatList
 import com.edwin.aivoiceapp.entity.AppConstants
 import com.edwin.lib_base.helper.NotificationHelper
+import com.edwin.lib_base.helper.SoundPoolHelper
 import com.edwin.lib_base.helper.WindowHelper
 import com.edwin.lib_base.utils.L
 import com.edwin.lib_voice.engine.VoiceEngineAnalyze
@@ -28,6 +32,9 @@ class VoiceService : Service(), OnNluResultListener {
 
     private lateinit var mFullWindowView: View
     private lateinit var mChatListView: RecyclerView
+    private lateinit var mLottieView: LottieAnimationView
+    private lateinit var tvVoiceTips: TextView
+    private lateinit var ivCloseWindow: ImageView
     private val mList = ArrayList<ChatList>()
     private lateinit var mChatAdapter: ChatListAdapter
 
@@ -60,12 +67,16 @@ class VoiceService : Service(), OnNluResultListener {
         mFullWindowView = WindowHelper.getView(R.layout.layout_window_item)
         mChatListView = mFullWindowView.findViewById<RecyclerView>(R.id.mChatListView)
 
+        mLottieView = mFullWindowView.findViewById<LottieAnimationView>(R.id.mLottieView)
+        tvVoiceTips = mFullWindowView.findViewById<TextView>(R.id.tvVoiceTips)
+
         // 设置属性
         mChatListView.layoutManager = LinearLayoutManager(this)
 
         // 设置适配器
         mChatAdapter = ChatListAdapter(mList);
         mChatListView.adapter = mChatAdapter
+
 
 
         VoiceManager.initManager(this, object : OnAsrResultListener {
@@ -92,22 +103,15 @@ class VoiceService : Service(), OnNluResultListener {
                     val wakeUpWord = result.optString("word")
 
                     if (wakeUpWord == "小爱同学" || wakeUpWord == "小袁同学" || wakeUpWord == "小袁小袁") {
-
-                        showWindow()
-
-                        // 应答
-                        val wakeUpText = WordTools.wakeUpWords()
-                        addMineText(wakeUpText)
-                        VoiceManager.ttsStart(wakeUpText,
-                            object : VoiceTTS.OnTTSResultListener {
-                                override fun ttsEnd() {
-                                    // 开启识别
-                                    VoiceManager.startAsr()
-                                }
-                            })
+                        wakeUpFix()
                     }
                 }
             }
+
+            override fun updateUserText(text: String) {
+                updateTips(text)
+            }
+
 
             override fun asrResult(result: JSONObject) {
                 L.i("=======================result=========================")
@@ -117,6 +121,7 @@ class VoiceService : Service(), OnNluResultListener {
             override fun nluResult(nlu: JSONObject) {
                 L.i("=======================nlu=========================")
                 L.i("nlu： $nlu")
+                addAIText(nlu.optString("raw_text"))
                 addAIText(nlu.toString())
                 VoiceEngineAnalyze.analyzeNlu(nlu, this@VoiceService)
             }
@@ -128,12 +133,32 @@ class VoiceService : Service(), OnNluResultListener {
         })
     }
 
+    /**
+     * 唤醒成功
+     */
+    private fun wakeUpFix() {
+        showWindow()
+        updateTips("正在聆听....")
+        SoundPoolHelper.play(R.raw.record_start)
+        // 应答
+        val wakeUpText = WordTools.wakeUpWords()
+        addMineText(wakeUpText)
+        VoiceManager.ttsStart(wakeUpText,
+            object : VoiceTTS.OnTTSResultListener {
+                override fun ttsEnd() {
+                    // 开启识别
+                    VoiceManager.startAsr()
+                }
+            })
+    }
+
 
     /**
      * 显示窗口
      */
     private fun showWindow() {
         L.i("=============显示窗口===========")
+        mLottieView.playAnimation()
         WindowHelper.show(mFullWindowView)
     }
 
@@ -143,7 +168,10 @@ class VoiceService : Service(), OnNluResultListener {
      */
     private fun hideWindow() {
         L.i("=============隐藏窗口===========")
-        mHandler.postDelayed({ WindowHelper.hide(mFullWindowView) }, 2 * 1000)
+        mHandler.postDelayed({
+            WindowHelper.hide(mFullWindowView)
+            mLottieView.pauseAnimation()
+        }, 3 * 1000)
 
     }
 
@@ -176,6 +204,13 @@ class VoiceService : Service(), OnNluResultListener {
     private fun baseAddItem(bean: ChatList) {
         mList.add(bean)
         mChatAdapter.notifyItemInserted(mList.size - 1)
+    }
+
+    /**
+     * 更新提示语
+     */
+    private fun updateTips(text: String) {
+        tvVoiceTips.text = text
     }
 
 
