@@ -5,3 +5,12 @@ data class MainListData(
     val icon: Int,
     val color: Int
 )
+
+/**
+ * type ： 回话类型
+ */
+data class ChatList(
+    val type: Int
+) {
+    lateinit var text: String
+}

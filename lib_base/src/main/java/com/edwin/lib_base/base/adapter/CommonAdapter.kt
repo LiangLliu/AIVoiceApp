@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 /**
  * 适配器
  */
-class CommonAdapter<T> : RecyclerView.Adapter<CommonViewHolder> {
+open class CommonAdapter<T> : RecyclerView.Adapter<CommonViewHolder> {
 
     //数据
     private var mList: List<T>

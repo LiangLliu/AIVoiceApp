@@ -2,8 +2,6 @@ package com.edwin.aivoiceapp
 
 import android.Manifest
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.os.Build
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,16 +11,13 @@ import com.edwin.aivoiceapp.service.VoiceService
 import com.edwin.lib_base.base.BaseActivity
 import com.edwin.lib_base.base.adapter.BasePagerAdapter
 import com.edwin.lib_base.helper.ARouterHelper
+import com.yanzhenjie.permission.Action
 
-import com.yanzhenjie.permission.AndPermission
-import com.yanzhenjie.permission.runtime.Permission
 import com.zhy.magicviewpager.transformer.ScaleInTransformer
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-@Suppress("DEPRECATION")
 class MainActivity : BaseActivity() {
-
 
     private val mList = ArrayList<MainListData>()
 
@@ -43,7 +38,19 @@ class MainActivity : BaseActivity() {
 
 
     override fun initView() {
-        requestPermission()
+
+        // 动态权限
+        if (checkPermission(Manifest.permission.RECORD_AUDIO)) {
+            linkService()
+        } else {
+            requestPermission(arrayOf(Manifest.permission.RECORD_AUDIO),
+                Action<List<String>> { linkService() })
+        }
+
+        //窗口权限
+        if (!checkWindowPermission()) {
+            requestWindowPermission(packageName)
+        }
 
         initPagerData()
         initPagerView()
@@ -111,34 +118,8 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    /**
-     * 申请权限
-     */
-    private fun requestPermission() {
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_DENIED) {
-                linkService()
-            } else {
-                // 请求权限
-                AndPermission.with(this)
-                    .runtime()
-                    .permission(Permission.RECORD_AUDIO)
-                    .onGranted { linkService() }
-                    .start()
-
-            }
-        } else {
-            linkService()
-        }
-
-
-    }
-
-
     // 连接服务
     private fun linkService() {
-
 
         startService(Intent(this, VoiceService::class.java))
     }
