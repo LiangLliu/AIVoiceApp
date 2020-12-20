@@ -67,25 +67,7 @@ object VoiceEngineAnalyze {
                         NluWords.INTENT_DOWNLOAD_APP,
                         NluWords.INTENT_SEARCH_APP,
                         NluWords.INTENT_RECOMMEND_APP -> {
-                            //得到打开App的名称
-                            val userAppName = it.optJSONArray("user_app_name")
-                            userAppName?.let { appName ->
-                                if (appName.length() > 0) {
-                                    val obj = appName[0] as JSONObject
-                                    val word = obj.optString("word")
-                                    when (intent) {
-                                        NluWords.INTENT_OPEN_APP -> mOnNluResultListener.openApp(
-                                            word
-                                        )
-                                        NluWords.INTENT_UNINSTALL_APP -> mOnNluResultListener.unInstallApp(
-                                            word
-                                        )
-                                        else -> mOnNluResultListener.otherApp(word)
-                                    }
-                                } else {
-                                    mOnNluResultListener.nluError()
-                                }
-                            }
+                            nluOfApp(it, intent)
                         }
                         else -> {
                             mOnNluResultListener.nluError()
@@ -94,11 +76,46 @@ object VoiceEngineAnalyze {
                 }
 
                 NluWords.NLU_WEATHER -> {
-
+                    val userLoc = slots.optJSONArray("user_loc")
+                    userLoc?.let { loc ->
+                        if (loc.length() > 0) {
+                            val locObject = loc[0] as JSONObject
+                            val word = locObject.optString("word")
+                            if (intent == NluWords.INTENT_USER_WEATHER) {
+                                mOnNluResultListener.queryWeather(word)
+                            } else {
+                                mOnNluResultListener.queryWeatherInfo(word)
+                            }
+                        }
+                    }
                 }
+
+
                 else -> mOnNluResultListener.nluError()
             }
         }
 
+    }
+
+    private fun nluOfApp(it: JSONObject, intent: String) {
+        //得到打开App的名称
+        val userAppName = it.optJSONArray("user_app_name")
+        userAppName?.let { appName ->
+            if (appName.length() > 0) {
+                val obj = appName[0] as JSONObject
+                val word = obj.optString("word")
+                when (intent) {
+                    NluWords.INTENT_OPEN_APP -> mOnNluResultListener.openApp(
+                        word
+                    )
+                    NluWords.INTENT_UNINSTALL_APP -> mOnNluResultListener.unInstallApp(
+                        word
+                    )
+                    else -> mOnNluResultListener.otherApp(word)
+                }
+            } else {
+                mOnNluResultListener.nluError()
+            }
+        }
     }
 }

@@ -1,6 +1,5 @@
 <resources>
 
-
     <!--标题-->
     <string name="app_title_app_manager">应用管理</string>
     <string name="app_title_constellation">星座</string>
@@ -11,9 +10,35 @@
     <string name="app_title_voice_setting">语音设置</string>
     <string name="app_title_weather">天气</string>
 
+    <!--欢迎词-->
+    <string name="app_voice_ready">语音引擎准备完毕，你可以说“xxx”将我唤醒</string>
+    <string name="app_voice_no_speak">你不说话，那我就退下了</string>
+
+    <!--日期-->
+    <string name="app_date_today">今天</string>
+    <string name="app_date_tomorrow">明天</string>
+    <string name="app_date_week">本周</string>
+    <string name="app_date_month">本月</string>
+    <string name="app_date_year">今年</string>
+
+
+    <!--服务词语-->
+    <string name="app_server_ready_text">正在聆听…</string>
+    <string name="app_server_open_app_tts">正在为你打开</string>
+    <string name="app_server_un_install_app_tts">正在为你卸载</string>
+    <string name="app_server_uninstall_app_tts">未安装</string>
+    <string name="app_server_click_confirm">请点击确定按钮</string>
+    <string name="app_server_launcher_app_store">正在为你启动应用商店</string>
+    <string name="app_server_uninstall_app_store">系统未安装应用商店</string>
 
     <string name="app_title_city_select">城市选择</string>
 
+    <!--多媒体-->
+    <string name="app_media_play">播放</string>
+    <string name="app_media_pause">暂停</string>
+
+    <!--通用-->
+    <string name="text_load_fail">加载失败</string>
 
     <!--固定数据-->
     <array name="DeveloperListArray">

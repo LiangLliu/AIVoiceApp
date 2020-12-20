@@ -11,6 +11,7 @@ object AppConstants {
 
     // AI文本
     val TYPE_AI_TEXT = 1
-    val TYPE_AI_WEATHER_TEXT = 2
+    //AI 天气
+    const val TYPE_AI_WEATHER = 2
 
 }

@@ -26,8 +26,14 @@ import com.edwin.lib_voice.manager.VoiceManager
 import com.edwin.lib_voice.tts.VoiceTTS
 import com.edwin.lib_voice.words.WordTools
 import com.edwin.aivoiceapp.adapter.ChatListAdapter
+import com.edwin.lib_base.helper.ARouterHelper
 import com.edwin.lib_base.utils.SpUtils
+import com.edwin.lib_network.HttpManager
+import com.edwin.lib_network.bean.WeatherData
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class VoiceService : Service(), OnNluResultListener {
 
@@ -121,7 +127,7 @@ class VoiceService : Service(), OnNluResultListener {
                     // 唤醒成功
                     val wakeUpWord = result.optString("word")
 
-                    if (wakeUpWord == "小爱同学" || wakeUpWord == "小袁同学" || wakeUpWord == "小袁小袁") {
+                    if (wakeUpWord == "小爱同学" || wakeUpWord == "小爱小爱") {
                         wakeUpFix()
                     }
                 }
@@ -238,9 +244,42 @@ class VoiceService : Service(), OnNluResultListener {
         hideWindow()
     }
 
-    // 查询天气
-    override fun queryWeather() {
+    override fun queryWeather(city: String) {
+        HttpManager.run {
+            queryWeather(city, object : Callback<WeatherData> {
+                override fun onFailure(call: Call<WeatherData>, t: Throwable) {
+                    addAIText(getString(R.string.text_voice_query_weather_error, city))
+                    hideWindow()
+                }
 
+                override fun onResponse(call: Call<WeatherData>, response: Response<WeatherData>) {
+                    if (response.isSuccessful) {
+                        response.body()?.let {
+                            it.result.realtime.apply {
+                                //在UI上显示
+                                addWeather(
+                                    city,
+                                    wid,
+                                    info,
+                                    temperature,
+                                    object : VoiceTTS.OnTTSResultListener {
+                                        override fun ttsEnd() {
+                                            hideWindow()
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    override fun queryWeatherInfo(city: String) {
+        addAIText(getString(R.string.text_voice_query_weather, city))
+        ARouterHelper.startActivity(ARouterHelper.PATH_WEATHER, "city", city)
+        hideWindow()
     }
 
     override fun nluError() {
@@ -276,6 +315,24 @@ class VoiceService : Service(), OnNluResultListener {
         val bean = ChatList(AppConstants.TYPE_AI_TEXT)
         bean.text = text
         baseAddItem(bean)
+        VoiceManager.ttsStart(text, mOnTTSResultListener)
+    }
+
+
+    /**
+     * 添加天气
+     */
+    private fun addWeather(
+        city: String, wid: String, info: String,
+        temperature: String, mOnTTSResultListener: VoiceTTS.OnTTSResultListener
+    ) {
+        val bean = ChatList(AppConstants.TYPE_AI_WEATHER)
+        bean.city = city
+        bean.wid = wid
+        bean.info = info
+        bean.temperature = "$temperature°"
+        baseAddItem(bean)
+        val text = city + "今天天气" + info + temperature + "°"
         VoiceManager.ttsStart(text, mOnTTSResultListener)
     }
 

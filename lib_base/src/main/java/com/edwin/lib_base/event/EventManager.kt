@@ -3,50 +3,54 @@ package com.edwin.lib_base.event
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 
+
 /**
- * Event 管理
+ * FileName: EventManager
+ * Founder: LiuGuiLin
+ * Profile: EventBus 管理
  */
 object EventManager {
 
-    // 注册
+    //注册
     fun register(subscriber: Any) {
         EventBus.getDefault().register(subscriber)
     }
 
-    // 解绑
-    fun onRegister(subscriber: Any) {
+    //解绑
+    fun unRegister(subscriber: Any) {
         EventBus.getDefault().unregister(subscriber)
     }
 
-    // 发送事件类
+    //发送事件类
     private fun post(event: MessageEvent) {
         EventBus.getDefault().post(event)
     }
 
-    // 发送事件
+    //---------------------Public Fun--------------------------------
+
+    //发送类型
     fun post(type: Int) {
         post(MessageEvent(type))
     }
 
-    // 发送类型，携带参数
-    fun post(type: Int, stringValue: String) {
+    //发送类型 携带String
+    fun post(type: Int, string: String) {
         val event = MessageEvent(type)
-        event.stringValue = stringValue
+        event.stringValue = string
         post(event)
     }
 
-    // 发送类型，携带参数
-    fun post(type: Int, intValue: Int) {
+    //发送类型 携带Int
+    fun post(type: Int, int: Int) {
         val event = MessageEvent(type)
-        event.intValue = intValue
+        event.intValue = int
         post(event)
     }
 
-    // 发送类型，携带参数
-    fun post(type: Int, booleanValue: Boolean) {
+    //发送类型 携带Boolean
+    fun post(type: Int, boolean: Boolean) {
         val event = MessageEvent(type)
-        event.booleanValue = booleanValue
+        event.booleanValue = boolean
         post(event)
     }
-
 }

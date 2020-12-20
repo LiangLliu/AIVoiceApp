@@ -18,10 +18,11 @@ interface OnNluResultListener {
     fun otherApp(appName: String)
 
 
-    /**
-     * 查询天气
-     */
-    fun queryWeather()
+    //查询天气
+    fun queryWeather(city: String)
+
+    //查询天气详情
+    fun queryWeatherInfo(city: String)
 
 
     //=======================其他=======================

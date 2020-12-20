@@ -78,11 +78,11 @@ object DependenciesConfig {
     const val CHART = "com.github.PhilJay:MPAndroidChart:v3.1.0"
 
 
+
 }
 
 object ModuleConfig {
     // 是否APP
-
     val isApp = false
 
     //  包名
