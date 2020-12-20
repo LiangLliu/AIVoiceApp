@@ -13,21 +13,14 @@ import com.edwin.lib_base.R
 import com.edwin.lib_base.helper.func.data.AppData
 import com.edwin.lib_base.utils.L
 
-/**
- * 应用帮助类
- */
+
 object AppHelper {
 
-    /**
-     * 上下文
-     */
+    //上下文
     private lateinit var mContext: Context
 
-    /**
-     * 包管理器
-     */
-    private lateinit var mPackageManager: PackageManager
-
+    //包管理器
+    private lateinit var pm: PackageManager
 
     //所有应用
     private val mAllAppList = ArrayList<AppData>()
@@ -38,41 +31,38 @@ object AppHelper {
     //分页View
     val mAllViewList = ArrayList<View>()
 
-    /**
-     * 初始化完成
-     */
-    fun initHelper(context: Context) {
-        this.mContext = context
-        mPackageManager = mContext.packageManager
+    //初始化
+    fun initHelper(mContext: Context) {
+        this.mContext = mContext
+
+        pm = mContext.packageManager
+
         loadAllApp()
     }
 
-    /**
-     * 加载所有的APP
-     */
+    //加载所有的App
     private fun loadAllApp() {
-
         val intent = Intent(Intent.ACTION_MAIN, null)
-
         intent.addCategory(Intent.CATEGORY_LAUNCHER)
+        val appInfo = pm.queryIntentActivities(intent, 0)
 
-        val queryIntentActivities = mPackageManager.queryIntentActivities(intent, 0)
-
-        queryIntentActivities.forEachIndexed { _, resolveInfo ->
+        appInfo.forEachIndexed { _, resolveInfo ->
             val appData = AppData(
                 resolveInfo.activityInfo.packageName,
-                resolveInfo.loadLabel(mPackageManager) as String,
-                resolveInfo.loadIcon(mPackageManager),
+                resolveInfo.loadLabel(pm) as String,
+                resolveInfo.loadIcon(pm),
                 resolveInfo.activityInfo.name,
                 (resolveInfo.activityInfo.flags and ApplicationInfo.FLAG_SYSTEM) > 0
             )
             mAllAppList.add(appData)
         }
 
+        L.e("mAllAppList:$mAllAppList")
+
         initPageView()
+
         //加载商店包名
         mAllMarkArray = mContext.resources.getStringArray(R.array.AppMarketArray)
-
     }
 
     //初始化PageView
@@ -120,7 +110,7 @@ object AppHelper {
         return mAllAppList.filter { !it.isSystemApp }
     }
 
-    // 启动App
+    //启动App
     fun launcherApp(appName: String): Boolean {
         if (mAllAppList.size > 0) {
             mAllAppList.forEach {
@@ -133,7 +123,7 @@ object AppHelper {
         return false
     }
 
-    // 卸载App
+    //卸载App
     fun unInstallApp(appName: String): Boolean {
         if (mAllAppList.size > 0) {
             mAllAppList.forEach {
@@ -146,11 +136,8 @@ object AppHelper {
         return false
     }
 
-
     //跳转应用市场
     fun launcherAppStore(appName: String): Boolean {
-
-        // todo: 应用商店不能跳转
         mAllAppList.forEach {
             //如果你包含，说明你安装了应用商店
             if (mAllMarkArray.contains(it.packName)) {
@@ -169,7 +156,7 @@ object AppHelper {
 
     //启动App
     private fun intentApp(packageName: String) {
-        val intent = mPackageManager.getLaunchIntentForPackage(packageName)
+        val intent = pm.getLaunchIntentForPackage(packageName)
         intent?.let {
             it.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             mContext.startActivity(it)
@@ -187,13 +174,10 @@ object AppHelper {
 
     //跳转应用商店
     private fun intentAppStore(packageName: String, markPackageName: String) {
-
         val uri = Uri.parse("market://details?id=$packageName")
         val intent = Intent(Intent.ACTION_VIEW, uri)
         intent.setPackage(markPackageName)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         mContext.startActivity(intent)
     }
-
-
 }

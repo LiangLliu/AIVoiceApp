@@ -19,7 +19,7 @@ object ARouterHelper {
     const val PATH_DEVELOPER = "/developer/developer_activity"
     const val PATH_JOKE = "/joke/joke_activity"
     const val PATH_MAP = "/map/map_activity"
-    const val PATH_MAP_NAVI = "/map/navi_activity"
+
     const val PATH_SETTING = "/setting/setting_activity"
     const val PATH_VOICE_SETTING = "/voice/voice_setting_activity"
     const val PATH_WEATHER = "/weather/weather_activity"

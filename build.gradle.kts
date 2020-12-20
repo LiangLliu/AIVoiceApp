@@ -19,9 +19,14 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { setUrl("https://jitpack.io") }
+        //阿里云
+        maven { setUrl("http://maven.aliyun.com/nexus/content/groups/public/") }
+        maven { setUrl("http://maven.aliyun.com/nexus/content/repositories/jcenter") }
+        maven { setUrl("http://maven.aliyun.com/nexus/content/repositories/google") }
+        maven { setUrl("http://maven.aliyun.com/nexus/content/repositories/gradle-plugin") }
     }
 }
-
 tasks {
     val clean by registering(Delete::class) {
         delete(buildDir)
